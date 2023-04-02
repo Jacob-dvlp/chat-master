@@ -1,4 +1,4 @@
 
 
 
-const String url = "https://openai.com/api/v1/chat/completions";
+const String url = "https://api.openai.com/v1/completions";
