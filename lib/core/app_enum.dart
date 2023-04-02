@@ -1,0 +1,1 @@
+enum MessageFrom {me,bot}
