@@ -31,7 +31,7 @@ class RepositoryChat {
         msg = response.data["choices"][0]["text"];
       }
 
-      return msg;
+      return msg.trim();
     } catch (e) {
       log(e.toString(), name: "Erro");
       return "Ocorreu um erro!";

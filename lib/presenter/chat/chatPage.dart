@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/appThema.dart';
 import '../../core/app_enum.dart';
@@ -19,8 +21,14 @@ class _ChatPageState extends State<ChatPage> {
   final List<ModelChat> msg = [];
   final scrollController = ScrollController();
   int duration = 200;
+  bool isResponse = false;
+  bool textScanner = false;
+  String scannerText = "";
+  XFile? img;
 
-  screollDown() {
+  ScaffoldMessenger? _context;
+
+  scrollDown() {
     Future.delayed(
       Duration(milliseconds: duration),
       () {
@@ -31,115 +39,199 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  sendMsg() async {
-    if (input.text.isNotEmpty) {
-      String prompt = input.text.trim();
-      setState(() {
-        msg.add(
-          ModelChat(
-            message: prompt,
-            messageFrom: MessageFrom.me,
+  progrssIndicator(bool value) {
+    setState(() {
+      isResponse = value;
+    });
+  }
+
+  progrssIndicatorgetrecognisedText(bool value) {
+    setState(() {
+      textScanner = value;
+    });
+  }
+
+  Future sendMsg({required String prompt}) async {
+    progrssIndicator(true);
+    String responseMsg = await repository.getResponse(msg: prompt);
+    setState(() {
+      msg.add(
+        ModelChat(
+          message: responseMsg.trim(),
+          messageFrom: MessageFrom.bot,
+        ),
+      );
+      progrssIndicator(false);
+      scrollDown();
+    });
+  }
+
+  Future getRecognisedText(XFile img) async {
+    progrssIndicatorgetrecognisedText(true);
+    final inputImage = InputImage.fromFilePath(img.path);
+    final textDetector = GoogleMlKit.vision.textRecognizer();
+    RecognizedText recognizedText = await textDetector.processImage(inputImage);
+    await textDetector.close();
+    scannerText = "";
+    for (TextBlock textBlock in recognizedText.blocks) {
+      for (TextLine line in textBlock.lines) {
+        scannerText = "$scannerText${line.text}\n";
+      }
+    }
+    progrssIndicatorgetrecognisedText(false);
+    await sendMsg(prompt: scannerText);
+    setState(() {});
+  }
+
+  Future camera() async {
+    try {
+      final image =
+          await ImagePicker.platform.getImage(source: ImageSource.camera);
+      if (image != null) {
+        setState(() {
+          img = image;
+          getRecognisedText(img!);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Erro ao fazer a leitura de Imagem"),
           ),
         );
-        input.clear();
-        screollDown();
-      });
+      }
+    } catch (e) {
+      textScanner = false;
+    }
+  }
 
-      String responseMsg = await repository.getResponse(msg: prompt);
-      setState(() {
-        msg.add(
-          ModelChat(
-            message: responseMsg.trim(),
-            messageFrom: MessageFrom.bot,
+  Future getImage() async {
+    try {
+      final image =
+          await ImagePicker.platform.getImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          img = image;
+          getRecognisedText(img!);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Erro ao fazer a leitura de Imagem"),
           ),
         );
-
-        screollDown();
-      });
+      }
+    } catch (e) {
+      textScanner = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppThema.primaryColor,
+        backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,
         appBar: AppBar(
-          backgroundColor: AppThema.primaryColor,
-          title: const Text('C h a t M a s t e r'),
+          backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,
+          title: const Text(
+            'Reconhecedor de Texto/ChatGPT',
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  msg.clear();
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.delete_outline,
+                ))
+          ],
           centerTitle: true,
         ),
-        body: SizedBox.expand(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: msg.length,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (msg[index].messageFrom == MessageFrom.me)
-                            const Spacer(),
-                          Container(
-                            margin: const EdgeInsets.all(12),
-                            //  height: MediaQuery.of(context).size.height/3,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: AppThema.secondaryColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              msg[index].message,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    },
-                  ),
+        floatingActionButton: textScanner
+            ? CircularProgressIndicator(
+                color: AppThema.secondaryColor,
+                backgroundColor: Colors.white,
+              )
+            : FloatingActionButton(
+                onPressed: () {
+                  getImage();
+                },
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.photo_rounded,
+                  color: AppThema.secondaryColor,
                 ),
-                TextField(
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                  ),
-                  maxLines: 4,
-                  minLines: 1,
-                  controller: input,
-                  decoration: InputDecoration(
-                      hintText: "Qual é a tua duvida...",
-                      hintStyle: const TextStyle(
+              ),
+        body: msg.isEmpty
+            ? Center(
+                child: isResponse
+                    ? const CircularProgressIndicator(
                         color: Colors.white,
+                        backgroundColor: Colors.black,
+                      )
+                    : Image.asset("asset/logo.png"))
+            : SizedBox.expand(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          controller: scrollController,
+                          itemCount: msg.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  // backgroundColor: Colors.grey[200],
+                                  child: Image.asset("asset/logo.png"),
+                                ),
+                                Container(
+                                    margin: const EdgeInsets.all(12),
+                                    width: msg[index].messageFrom ==
+                                            MessageFrom.me
+                                        ? MediaQuery.of(context).size.width /
+                                            2.5
+                                        : MediaQuery.of(context).size.width *
+                                            0.7,
+                                    padding:
+                                        msg[index].messageFrom == MessageFrom.me
+                                            ? const EdgeInsets.only(
+                                                left: 5,
+                                                top: 12,
+                                                right: 5,
+                                                bottom: 12)
+                                            : const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: AppThema.secondaryColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      msg[index].message,
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    )),
+                              ],
+                            );
+                          },
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppThema.secondaryColor),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      fillColor: AppThema.secondaryColor,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppThema.secondaryColor),
-                      ),
-                      filled: true,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          sendMsg();
-                        },
-                        icon: const Icon(Icons.send),
-                      )),
+                      isResponse
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: LinearProgressIndicator(
+                                backgroundColor: AppThema.secondaryColor,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ));
+              ));
   }
 }
