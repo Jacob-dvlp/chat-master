@@ -67,8 +67,15 @@ class ChatGptController extends GetxController {
         scannerText = "$scannerText${line.text}\n";
       }
     }
+    if (scannerText.isEmpty) {
+      Get.showSnackbar(const GetSnackBar(
+        title: "Arquivo",
+        titleText: Text("Erro ao fazer a leitura de caracterticas na imagen"),
+      ));
+    }
     progrssIndicatorgetrecognisedText(false);
     await sendMsg(prompt: scannerText);
+
     update();
   }
 
@@ -81,7 +88,12 @@ class ChatGptController extends GetxController {
         getRecognisedText(img!);
         update();
       } else {
-        //  Get.snackbar("Erro ao fazer a leitura de Imagem",);
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Falha",
+            titleText: Text("Erro ao fazer a leitura de Imagem"),
+          ),
+        );
       }
     } catch (e) {
       textScanner = false;
@@ -97,11 +109,10 @@ class ChatGptController extends GetxController {
         getRecognisedText(img!);
         update();
       } else {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content: Text("Erro ao fazer a leitura de Imagem"),
-        //   ),
-        // );
+        Get.showSnackbar(const GetSnackBar(
+          title: "Falha",
+          titleText: Text("Erro ao fazer a leitura de Imagem"),
+        ));
       }
     } catch (e) {
       textScanner = false;
