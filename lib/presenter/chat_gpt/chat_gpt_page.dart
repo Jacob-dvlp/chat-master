@@ -10,68 +10,75 @@ class ChatGptPage extends GetView<ChatGptController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor:
-            controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
-        appBar: AppBar(
-          backgroundColor: controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
-          title: const Text(
-            'Reconhecedor de Texto/ChatGPT',
-            style: TextStyle(fontSize: 18),
+    return GetBuilder<ChatGptController>(
+      init: ChatGptController(
+        Get.find(),
+      ),
+      builder: (context) {
+        return Scaffold(
+          backgroundColor:
+              controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
+          appBar: AppBar(
+            backgroundColor:
+                controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
+            title: const Text(
+              'Reconhecedor de Texto/ChatGPT',
+              style: TextStyle(fontSize: 18),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    controller.msg.clear();
+
+                    ///setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline,
+                  ))
+            ],
+            centerTitle: true,
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  controller.msg.clear();
-                  setState(() {});
-                },
-                icon: const Icon(
-                  Icons.delete_outline,
-                ))
-          ],
-          centerTitle: true,
-        ),
-        floatingActionButton: controller.textScanner
-            ? CircularProgressIndicator(
-                color: AppThema.secondaryColor,
-                backgroundColor: Colors.white,
-              )
-            : FloatingActionButton(
-                onPressed: () {
-                  controller.getImage();
-                },
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.photo_rounded,
+          floatingActionButton: controller.textScanner
+              ? CircularProgressIndicator(
                   color: AppThema.secondaryColor,
+                  backgroundColor: Colors.white,
+                )
+              : FloatingActionButton(
+                  onPressed: () {
+                    controller.getImage();
+                  },
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.photo_rounded,
+                    color: AppThema.secondaryColor,
+                  ),
                 ),
-              ),
-        body: controller.msg.isEmpty
-            ? Center(
-                child: controller.isResponse
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                        backgroundColor: Colors.black,
-                      )
-                    : Image.asset("asset/logo.png"))
-            : SizedBox.expand(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          controller: controller.scrollController,
-                          itemCount: controller.msg.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  // backgroundColor: Colors.grey[200],
-                                  child: Image.asset("asset/logo.png"),
-                                ),
-                                Container(
+          body: controller.msg.isEmpty
+              ? Center(
+                  child: controller.isResponse
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                          backgroundColor: Colors.black,
+                        )
+                      : Image.asset("asset/logo.png"))
+              : SizedBox.expand(
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            controller: controller.scrollController,
+                            itemCount: controller.msg.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    // backgroundColor: Colors.grey[200],
+                                    child: Image.asset("asset/logo.png"),
+                                  ),
+                                  Container(
                                     margin: const EdgeInsets.all(12),
                                     width: controller.msg[index].messageFrom ==
                                             MessageFrom.me
@@ -99,24 +106,28 @@ class ChatGptPage extends GetView<ChatGptController> {
                                         color: Colors.white,
                                         fontSize: 20,
                                       ),
-                                    )),
-                              ],
-                            );
-                          },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      controller.isResponse
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: LinearProgressIndicator(
-                                backgroundColor: AppThema.secondaryColor,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const SizedBox(),
-                    ],
+                        controller.isResponse
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: LinearProgressIndicator(
+                                  backgroundColor: AppThema.secondaryColor,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
                   ),
                 ),
-              ));
+        );
+      },
+    );
   }
 }

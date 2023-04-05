@@ -128,6 +128,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const Drawer(
+          shadowColor: Colors.white,
+        ),
         backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,
         appBar: AppBar(
           backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,

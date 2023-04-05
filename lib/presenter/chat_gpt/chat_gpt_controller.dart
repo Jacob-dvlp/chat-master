@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
@@ -10,7 +9,7 @@ import '../../src/repository/repository_chat.dart';
 
 class ChatGptController extends GetxController {
   final input = TextEditingController();
-  final repository = RepositoryChat(Dio());
+  final RepositoryChat repository;
   final List<ModelChat> msg = [];
   final scrollController = ScrollController();
   int duration = 200;
@@ -18,6 +17,8 @@ class ChatGptController extends GetxController {
   bool textScanner = false;
   String scannerText = "";
   XFile? img;
+
+  ChatGptController(this.repository);
 
   scrollDown() {
     Future.delayed(

@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
-import './chat_gpt_controller.dart';
+
+import '../../src/repository/repository_chat.dart';
+import 'chat_gpt_controller.dart';
 
 class ChatGptBindings implements Bindings {
-    @override
-    void dependencies() {
-        Get.put(ChatGptController());
-    }
+  @override
+  void dependencies() {
+    Get.put(RepositoryChat(
+      Get.find(),
+    ));
+    Get.put(ChatGptController(Get.find()));
+  }
 }
