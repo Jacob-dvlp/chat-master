@@ -4,8 +4,8 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/appThema.dart';
 import '../../core/app_enum.dart';
+import '../../core/app_thema.dart';
 import '../../src/model/model_chat.dart';
 import '../../src/repository/repository_chat.dart';
 

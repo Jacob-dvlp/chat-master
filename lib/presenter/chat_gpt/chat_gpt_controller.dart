@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
@@ -17,6 +19,7 @@ class ChatGptController extends GetxController {
   bool isResponse = false;
   bool textScanner = false;
   String scannerText = "";
+  String key = "";
   XFile? img;
 
   ChatGptController(this.repository);

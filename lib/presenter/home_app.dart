@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'splash/splashScreen.dart';
+import 'splash/splash_screen.dart';
 
 class HomeApp extends StatelessWidget {
   const HomeApp({Key? key}) : super(key: key);

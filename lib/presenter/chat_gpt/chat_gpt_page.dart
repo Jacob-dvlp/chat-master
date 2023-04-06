@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/appThema.dart';
 import '../../core/app_enum.dart';
+import '../../core/app_thema.dart';
 import 'chat_gpt_controller.dart';
 
 class ChatGptPage extends GetView<ChatGptController> {
@@ -17,7 +17,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (context) {
         return Scaffold(
-          drawer: key == ""
+          drawer: controller.key == ""
               ? Drawer(
                   shadowColor: Colors.white,
                   child: Container(
