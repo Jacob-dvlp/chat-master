@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/appThema.dart';
 import '../../core/app_enum.dart';
@@ -24,9 +25,8 @@ class _ChatPageState extends State<ChatPage> {
   bool isResponse = false;
   bool textScanner = false;
   String scannerText = "";
+  String key = "";
   XFile? img;
-
-  ScaffoldMessenger? _context;
 
   scrollDown() {
     Future.delayed(
@@ -128,14 +128,51 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const Drawer(
-          shadowColor: Colors.white,
-        ),
+        drawer: key == ""
+            ? Drawer(
+                shadowColor: Colors.white,
+                child: Container(
+                  color: AppThema.secondaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          if (await launchUrl(
+                            Uri.parse(
+                                'https://platform.openai.com/account/api-keys'),
+                          )) {
+                            debugPrint('succesfully');
+                          }
+                        },
+                        child: const ListTile(
+                          leading: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.link_rounded,
+                                color: Colors.black,
+                              )),
+                          title: Text(
+                            "Pegar a chave",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Container(),
         backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,
         appBar: AppBar(
           backgroundColor: msg.isEmpty ? Colors.black : AppThema.primaryColor,
           title: const Text(
-            'Reconhecedor de Texto/ChatGPT',
+            'Chat Inteligente / GPT',
             style: TextStyle(fontSize: 18),
           ),
           actions: [
