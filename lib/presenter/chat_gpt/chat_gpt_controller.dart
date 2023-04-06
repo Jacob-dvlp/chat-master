@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_enum.dart';
 import '../../src/model/model_chat.dart';
@@ -39,6 +40,14 @@ class ChatGptController extends GetxController {
   progrssIndicatorgetrecognisedText(bool value) {
     textScanner = value;
     update();
+  }
+
+  openUrllaunchUrl() async {
+    if (await launchUrl(
+      Uri.parse('https://platform.openai.com/account/api-keys'),
+    )) {
+      debugPrint('succesfully');
+    }
   }
 
   Future sendMsg({required String prompt}) async {

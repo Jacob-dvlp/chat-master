@@ -163,6 +163,25 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ),
                       ),
+                      InkWell(
+                        onTap: () async {
+                          //  controller.openUrllaunchUrl();
+                        },
+                        child: const ListTile(
+                          leading: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.paste,
+                                color: Colors.black,
+                              )),
+                          title: Text(
+                            "Colar a Key",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

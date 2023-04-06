@@ -7,6 +7,7 @@ import 'chat_gpt_controller.dart';
 
 class ChatGptPage extends GetView<ChatGptController> {
   const ChatGptPage({Key? key}) : super(key: key);
+  static String routNamed = "/chat";
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,60 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (context) {
         return Scaffold(
+          drawer: key == ""
+              ? Drawer(
+                  shadowColor: Colors.white,
+                  child: Container(
+                    color: AppThema.secondaryColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            controller.openUrllaunchUrl();
+                          },
+                          child: const ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.link_rounded,
+                                  color: Colors.black,
+                                )),
+                            title: Text(
+                              "Pegar a Key",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            controller.openUrllaunchUrl();
+                          },
+                          child: const ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.link_rounded,
+                                  color: Colors.black,
+                                )),
+                            title: Text(
+                              "Colar a Key",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(),
           backgroundColor:
               controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
           appBar: AppBar(
