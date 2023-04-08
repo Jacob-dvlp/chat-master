@@ -8,7 +8,7 @@ import '../../core/app_url.dart';
 class RepositoryChat {
   final Dio _dio;
   String? msg;
-  RepositoryChat(Dio dio) : _dio = dio;
+  RepositoryChat(this._dio);
 
   Future getResponse({required String msg}) async {
     try {

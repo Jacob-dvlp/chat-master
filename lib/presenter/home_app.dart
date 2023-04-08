@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'splash/splash_screen.dart';
+import '../app_router.dart';
 
 class HomeApp extends StatelessWidget {
   const HomeApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      getPages: AppRouter.route,
+      initialRoute: "/",
     );
   }
 }

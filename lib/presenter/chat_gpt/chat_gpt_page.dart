@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../core/app_enum.dart';
 import '../../core/app_thema.dart';
+import '../key_generate/key_generate_page.dart';
 import 'chat_gpt_controller.dart';
 
 class ChatGptPage extends GetView<ChatGptController> {
@@ -26,40 +27,21 @@ class ChatGptPage extends GetView<ChatGptController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 60,
+                          height: 80,
                         ),
                         InkWell(
                           onTap: () async {
-                            controller.openUrllaunchUrl();
+                            Get.toNamed(KeyGeneratePage.routNamed);
                           },
                           child: const ListTile(
                             leading: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Icon(
-                                  Icons.link_rounded,
+                                  Icons.key_outlined,
                                   color: Colors.black,
                                 )),
                             title: Text(
-                              "Pegar a Key",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            controller.openUrllaunchUrl();
-                          },
-                          child: const ListTile(
-                            leading: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.link_rounded,
-                                  color: Colors.black,
-                                )),
-                            title: Text(
-                              "Colar a Key",
+                              "Inserir a Key(GPT)",
                               style: TextStyle(
                                 color: Colors.white,
                               ),

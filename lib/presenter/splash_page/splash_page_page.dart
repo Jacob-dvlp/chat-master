@@ -5,7 +5,7 @@ import 'splash_page_controller.dart';
 
 class SplashPagePage extends GetView<SplashPageController> {
   const SplashPagePage({Key? key}) : super(key: key);
-
+  static String routNamed = "/";
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashPageController>(
