@@ -66,8 +66,7 @@ class ChatGptPage extends GetView<ChatGptController> {
               IconButton(
                   onPressed: () {
                     controller.msg.clear();
-
-                    ///setState(() {});
+                    controller.update();
                   },
                   icon: const Icon(
                     Icons.delete_outline,
