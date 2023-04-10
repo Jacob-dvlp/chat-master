@@ -14,55 +14,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
     return Scaffold(
       floatingActionButton: InkWell(
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      height: 90.0,
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Success',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              'Your OpenAI API key has been saved successfully. You wont need to enter it again in the future.',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.white,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              duration: const Duration(seconds: 2),
-            ),
-          );
+          controller.saveKey();
         },
         child: const CircleAvatar(
           backgroundColor: Colors.white,
@@ -88,14 +40,14 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
               ),
               const Text(
                 'Gerar a',
-                style: TextStyle(fontSize: 20.0, color: Colors.black87),
+                style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
               const SizedBox(
                 height: 5.0,
               ),
               const Text(
                 'API Key',
-                style: TextStyle(fontSize: 20.0, color: Colors.black87),
+                style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
               const SizedBox(
                 height: 15.0,
@@ -103,7 +55,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
               const Text(
                 'To chat with me, get an API key from OpenAI. Simply click this button and follow the steps to generate a key. '
                 'Then enter the key in our app to start chatting',
-                style: TextStyle(fontSize: 12.0, color: Colors.black87),
+                style: TextStyle(fontSize: 12.0, color: Colors.white),
               ),
               const SizedBox(
                 height: 20.0,
@@ -139,13 +91,14 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
               Container(
                 child: const Text(
                   'After copied your Api key paste and save it here',
-                  style: TextStyle(fontSize: 12.0, color: Colors.black87),
+                  style: TextStyle(fontSize: 12.0, color: Colors.white),
                 ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               TextField(
+                controller: controller.controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -159,18 +112,16 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                       color: Colors.white,
                     ),
                   ),
-                  floatingLabelStyle: const TextStyle(color: Colors.black87),
+                  floatingLabelStyle: const TextStyle(color: Colors.white),
                   labelText: 'Colar sua API Key',
                   labelStyle:
-                      const TextStyle(fontSize: 12.0, color: Colors.black87),
+                      const TextStyle(fontSize: 12.0, color: Colors.white),
                   suffixIcon: IconButton(
                       onPressed: () async {
                         final clipPaste =
                             await Clipboard.getData(Clipboard.kTextPlain);
                         final text = clipPaste == null ? '' : clipPaste.text!;
-                        // setState(() {
-                        //   pasteController.text = text;
-                        // });
+                        controller.clipPaste(value: text);
                       },
                       icon: const Icon(
                         Icons.content_paste,

@@ -53,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future sendMsg({required String prompt}) async {
     progrssIndicator(true);
-    String responseMsg = await repository.getResponse(msg: prompt);
+    String responseMsg = await repository.getResponse(msg: prompt, key: "");
     setState(() {
       msg.add(
         ModelChat(

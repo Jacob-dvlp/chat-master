@@ -7,11 +7,13 @@ import '../../core/app_url.dart';
 
 class RepositoryChat {
   final Dio _dio;
-  String? msg;
   RepositoryChat(this._dio);
 
-  Future getResponse({required String msg}) async {
+  Future getResponse({required String msg, required String key}) async {
+        String? msg;
+
     try {
+
       Map<String, dynamic> data = {
         "model": "text-davinci-003",
         "prompt": msg,
@@ -31,7 +33,7 @@ class RepositoryChat {
         msg = response.data["choices"][0]["text"];
       }
 
-      return msg.trim();
+      return msg!.trim();
     } catch (e) {
       log(e.toString(), name: "Erro");
       return "Ocorreu um erro!";

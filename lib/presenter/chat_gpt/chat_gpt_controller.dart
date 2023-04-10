@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_enum.dart';
@@ -55,7 +56,12 @@ class ChatGptController extends GetxController {
 
   Future sendMsg({required String prompt}) async {
     progrssIndicator(true);
-    String responseMsg = await repository.getResponse(msg: prompt);
+    String keyteste = "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";
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? key = sharedPreferences.getString("key");
+    String responseMsg =
+        await repository.getResponse(msg: prompt, key: keyteste);
 
     msg.add(
       ModelChat(
