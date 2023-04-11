@@ -30,7 +30,7 @@ class RepositoryChat {
         options: Options(headers: {"Authorization": "Bearer ${AppConfig.key}"}),
       );
       if (response.statusCode == 200) {
-        msg = response.data["choices"][0]["text"];
+        msg = response.data["choices"][1]["text"];
       }
 
       return msg!.trim();
