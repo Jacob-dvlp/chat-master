@@ -18,8 +18,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (context) {
         return Scaffold(
-          drawer: controller.keyteste == ""
-              ? Drawer(
+          drawer: Drawer(
                   shadowColor: Colors.white,
                   child: Container(
                     color: AppThema.secondaryColor,
@@ -51,8 +50,8 @@ class ChatGptPage extends GetView<ChatGptController> {
                       ],
                     ),
                   ),
-                )
-              : Container(),
+          ),
+           
           backgroundColor:
               controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
           appBar: AppBar(
@@ -81,7 +80,7 @@ class ChatGptPage extends GetView<ChatGptController> {
                 )
               : FloatingActionButton(
                   onPressed: () {
-                    if (controller.keyteste.isEmpty) {
+                    if (controller.key.isEmpty) {
                       Get.showSnackbar(const GetSnackBar(
                         titleText: Text(
                           "Key",

@@ -19,7 +19,7 @@ class ChatGptController extends GetxController {
   bool isResponse = false;
   bool textScanner = false;
   String scannerText = "";
-  String keyteste = "";
+  String key = "";
   XFile? img;
 
   ChatGptController(this.repository);
@@ -35,8 +35,6 @@ class ChatGptController extends GetxController {
     );
   }
 
- 
-
   progrssIndicator(bool value) {
     isResponse = value;
     update();
@@ -49,12 +47,10 @@ class ChatGptController extends GetxController {
 
   Future sendMsg({required String prompt}) async {
     progrssIndicator(true);
-    String keyteste = "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";
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? key = sharedPreferences.getString("key");
     String responseMsg =
-        await repository.getResponse(msg: prompt, key: keyteste);
+        await repository.getResponse(msg: prompt, key: key!);
     msg.add(
       ModelChat(
         message: responseMsg.trim(),
@@ -111,7 +107,7 @@ class ChatGptController extends GetxController {
   //   }
   // }
 
-  Future getImage() async {
+  Future getImage() async {  
     try {
       final image =
           await ImagePicker.platform.getImage(source: ImageSource.gallery);
@@ -122,17 +118,38 @@ class ChatGptController extends GetxController {
         update();
       } else if (img == null) {
         return Get.showSnackbar(const GetSnackBar(
-          titleText: Text("Falha"),
+          titleText: Text(
+            "Falha",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
           messageText: Text(
             "Erro ao fazer a leitura de Imagem",
+            style: TextStyle(color: Colors.white),
+            
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.red,
           duration: Duration(seconds: 4),
+          icon: Icon(
+            Icons.info_outline,
+            color: Colors.white,
+          ),
         ));
       }
     } catch (e) {
       textScanner = false;
       return;
     }
+  }
+
+  Future getKey() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    key = sharedPreferences.getString("key") ?? "";
+    print(key.length);
+  }
+
+  @override
+  void onInit() {
+    getKey();
+    super.onInit();
   }
 }
