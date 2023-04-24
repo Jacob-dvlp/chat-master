@@ -61,6 +61,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                 height: 20.0,
               ),
               InkWell(
+                onTap: () =>  controller.openUrllaunchUrl(),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 2.4,
                   child: Card(
@@ -88,8 +89,8 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
               const SizedBox(
                 height: 30.0,
               ),
-              Container(
-                child: const Text(
+           const   SizedBox(
+                child:  Text(
                   'After copied your Api key paste and save it here',
                   style: TextStyle(fontSize: 12.0, color: Colors.white),
                 ),

@@ -18,7 +18,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (context) {
         return Scaffold(
-          drawer: controller.key == ""
+          drawer: controller.keyteste == ""
               ? Drawer(
                   shadowColor: Colors.white,
                   child: Container(
@@ -81,7 +81,30 @@ class ChatGptPage extends GetView<ChatGptController> {
                 )
               : FloatingActionButton(
                   onPressed: () {
-                    controller.getImage();
+                    if (controller.keyteste.isEmpty) {
+                      Get.showSnackbar(const GetSnackBar(
+                        titleText: Text(
+                          "Key",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                        messageText: Text(
+                          "Cria sua chave para continuar..",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.red,
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                        ),
+                        duration: Duration(seconds: 4),
+                      ));
+                    } else {
+                      controller.getImage();
+                    }
+                   
                   },
                   backgroundColor: Colors.white,
                   child: Icon(

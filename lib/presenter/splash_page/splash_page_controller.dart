@@ -6,7 +6,6 @@ class SplashPageController extends GetxController {
   String key = "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";
   @override
   void onInit() {
-    print(key.length);
     Future.delayed(
       const Duration(seconds: 3),
       () {

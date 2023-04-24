@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class KeyGenerateController extends GetxController {
   final controller = TextEditingController();
@@ -22,5 +23,13 @@ class KeyGenerateController extends GetxController {
   clipPaste({required String value}) {
     controller.text = value;
     update();
+  }
+
+    openUrllaunchUrl() async {
+    if (await launchUrl(
+      Uri.parse('https://platform.openai.com/account/api-keys'),
+    )) {
+      debugPrint('succesfully');
+    }
   }
 }

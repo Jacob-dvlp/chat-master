@@ -21,6 +21,7 @@ class SplashPagePage extends GetView<SplashPageController> {
               ),
             ),
           );
-        });
+      },
+    );
   }
 }
