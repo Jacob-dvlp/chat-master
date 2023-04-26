@@ -18,8 +18,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (context) {
         return Scaffold(
-          drawer: controller.keyteste == ""
-              ? Drawer(
+          drawer: Drawer(
                   shadowColor: Colors.white,
                   child: Container(
                     color: AppThema.secondaryColor,
@@ -51,8 +50,8 @@ class ChatGptPage extends GetView<ChatGptController> {
                       ],
                     ),
                   ),
-                )
-              : Container(),
+          ),
+           
           backgroundColor:
               controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
           appBar: AppBar(
@@ -81,29 +80,31 @@ class ChatGptPage extends GetView<ChatGptController> {
                 )
               : FloatingActionButton(
                   onPressed: () {
-                    if (controller.keyteste.isEmpty) {
-                      Get.showSnackbar(const GetSnackBar(
-                        titleText: Text(
-                          "Key",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                        messageText: Text(
-                          "Cria sua chave para continuar..",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: Colors.red,
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                        duration: Duration(seconds: 4),
-                      ));
-                    } else {
-                      controller.getImage();
-                    }
+                                          controller.sendMsg(prompt: "Oi GPT");
+
+                    // if (controller.key.isEmpty) {
+                    //   Get.showSnackbar(const GetSnackBar(
+                    //     titleText: Text(
+                    //       "Key",
+                    //       style: TextStyle(
+                    //           fontWeight: FontWeight.bold, color: Colors.white),
+                    //     ),
+                    //     messageText: Text(
+                    //       "Cria sua chave para continuar..",
+                    //       style: TextStyle(
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //     backgroundColor: Colors.red,
+                    //     icon: Icon(
+                    //       Icons.info_outline,
+                    //       color: Colors.white,
+                    //     ),
+                    //     duration: Duration(seconds: 4),
+                    //   ));
+                    // } else {
+                    //   controller.getImage();
+                    // }
                    
                   },
                   backgroundColor: Colors.white,

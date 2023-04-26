@@ -16,7 +16,7 @@ class RepositoryChat {
 
       Map<String, dynamic> data = {
         "model": "text-davinci-003",
-        "prompt": msg,
+        "prompt": "Oi tudo bem  ?",
         "temperature": 0,
         "max_tokens": 1000,
         "top_p": 1,
