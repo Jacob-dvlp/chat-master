@@ -16,7 +16,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       init: ChatGptController(
         Get.find(),
       ),
-      builder: (context) {
+      builder: (controller) {
         return Scaffold(
           drawer: Drawer(
                   shadowColor: Colors.white,
@@ -57,62 +57,61 @@ class ChatGptPage extends GetView<ChatGptController> {
           appBar: AppBar(
             backgroundColor:
                 controller.msg.isEmpty ? Colors.black : AppThema.primaryColor,
-            title: const Text(
-              'Reconhecedor de Texto/ChatGPT',
-              style: TextStyle(fontSize: 18),
+            title:  Text(
+              controller.msg.isNotEmpty ?'Reconhecedor de Texto/ChatGPT': "",
+              style: const TextStyle(fontSize: 18),
             ),
             actions: [
-              IconButton(
+              controller.msg.isNotEmpty ? IconButton(
                   onPressed: () {
                     controller.msg.clear();
                     controller.update();
                   },
                   icon: const Icon(
                     Icons.delete_outline,
-                  ))
+                  )) : Container()
             ],
             centerTitle: true,
           ),
-          floatingActionButton: controller.textScanner
+          floatingActionButton: controller.msg.isEmpty ?  controller.textScanner
               ? CircularProgressIndicator(
                   color: AppThema.secondaryColor,
                   backgroundColor: Colors.white,
                 )
               : FloatingActionButton(
                   onPressed: () {
-                                          controller.sendMsg(prompt: "Oi GPT");
-
-                    // if (controller.key.isEmpty) {
-                    //   Get.showSnackbar(const GetSnackBar(
-                    //     titleText: Text(
-                    //       "Key",
-                    //       style: TextStyle(
-                    //           fontWeight: FontWeight.bold, color: Colors.white),
-                    //     ),
-                    //     messageText: Text(
-                    //       "Cria sua chave para continuar..",
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //     backgroundColor: Colors.red,
-                    //     icon: Icon(
-                    //       Icons.info_outline,
-                    //       color: Colors.white,
-                    //     ),
-                    //     duration: Duration(seconds: 4),
-                    //   ));
-                    // } else {
-                    //   controller.getImage();
-                    // }
+                    if (controller.key.isEmpty) {
+                      Get.showSnackbar(const GetSnackBar(
+                        titleText: Text(
+                          "Key",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                        messageText: Text(
+                          "Cria sua chave para continuar..",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.red,
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                        ),
+                        duration: Duration(seconds: 4),
+                      ));
+                    } else {
+                      controller.getImage();
+                    }
                    
                   },
                   backgroundColor: Colors.white,
                   child: Icon(
-                    Icons.photo_rounded,
+                    Icons.message_outlined,
                     color: AppThema.secondaryColor,
                   ),
-                ),
+                ): Container(color: Colors.transparent,),
+          
           body: controller.msg.isEmpty
               ? Center(
                   child: controller.isResponse
@@ -182,6 +181,46 @@ class ChatGptPage extends GetView<ChatGptController> {
                                 ),
                               )
                             : const SizedBox(),
+
+                        TextField(
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                          maxLines: 4,
+                          minLines: 1,
+                          controller: controller.input,
+                          decoration: InputDecoration(
+                              hintText: "Qual é a tua duvida...",
+                              hintStyle: const TextStyle(
+                                color: Colors.white,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppThema.secondaryColor),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              fillColor: AppThema.secondaryColor,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppThema.secondaryColor),
+                              ),
+                              filled: true,
+                              prefixIcon: IconButton(
+                                onPressed: () {
+                                  controller.getImage();
+                                },
+                                icon: const Icon(Icons.file_present_outlined),
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.sendMsg(prompt: controller.input.text);
+                                },
+                                icon: const Icon(Icons.send),
+                              )),
+                        ),
                       ],
                     ),
                   ),

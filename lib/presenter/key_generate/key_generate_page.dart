@@ -14,7 +14,6 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
     return Scaffold(
       floatingActionButton: InkWell(
         onTap: () {
-          print(controller.controller.text.length);
           controller.saveKey();
         },
         child: const CircleAvatar(
@@ -55,8 +54,8 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                   height: 15.0,
                 ),
                 const Text(
-                  'To chat with me, get an API key from OpenAI. Simply click this button and follow the steps to generate a key. '
-                  'Then enter the key in our app to start chatting',
+                  'Para conversar comigo, obtenha uma chave de API da OpenAI. Basta clicar neste botão e seguir as etapas para gerar uma chave. '
+                  'Então digite a chave em nosso aplicativo para começar a conversar',
                   style: TextStyle(fontSize: 12.0, color: Colors.white),
                 ),
                 const SizedBox(

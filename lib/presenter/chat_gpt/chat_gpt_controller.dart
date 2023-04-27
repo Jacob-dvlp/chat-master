@@ -57,6 +57,7 @@ class ChatGptController extends GetxController {
         messageFrom: MessageFrom.bot,
       ),
     );
+    input.clear();
     progrssIndicator(false);
     scrollDown();
     update();

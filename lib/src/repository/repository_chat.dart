@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../../core/app_config.dart';
 import '../../core/app_url.dart';
 
 class RepositoryChat {
@@ -10,13 +9,11 @@ class RepositoryChat {
   RepositoryChat(this._dio);
 
   Future getResponse({required String msg, required String key}) async {
-        String? msg;
 
     try {
-
       Map<String, dynamic> data = {
         "model": "text-davinci-003",
-        "prompt": "Oi tudo bem  ?",
+        "prompt": msg,
         "temperature": 0,
         "max_tokens": 1000,
         "top_p": 1,
@@ -27,13 +24,13 @@ class RepositoryChat {
       Response response = await _dio.post(
         url,
         data: data,
-        options: Options(headers: {"Authorization": "Bearer ${AppConfig.key}"}),
+        options: Options(headers: {"Authorization": "Bearer $key"}),
       );
       if (response.statusCode == 200) {
         msg = response.data["choices"][0]["text"];
       }
 
-      return msg!.trim();
+      return msg.trim();
     } catch (e) {
       log(e.toString(), name: "Erro");
       return "Ocorreu um erro!";

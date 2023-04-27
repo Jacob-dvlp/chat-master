@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class KeyGenerateController extends GetxController {
-  final controller = TextEditingController(text: "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");
+  final controller = TextEditingController(text: "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");
   Future saveKey() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (controller.text.isEmpty) {
