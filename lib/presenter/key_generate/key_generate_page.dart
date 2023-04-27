@@ -54,8 +54,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                   height: 15.0,
                 ),
                 const Text(
-                  'Para conversar comigo, obtenha uma chave de API da OpenAI. Basta clicar neste botão e seguir as etapas para gerar uma chave. '
-                  'Então digite a chave em nosso aplicativo para começar a conversar',
+                  'Para usar esse aplicativo, é necessario obter uma chave de API da OpenAI. E para obter  Basta clicar neste botão e seguir as etapas para gerar uma chave. Então cola ou digite a chave em nosso aplicativo para começar a conversar',
                   style: TextStyle(fontSize: 12.0, color: Colors.white),
                 ),
                 const SizedBox(
@@ -77,7 +76,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                               width: 5,
                             ),
                             Text(
-                              'cria sua chave',
+                              'Cria sua chave',
                               style:
                                   TextStyle(fontSize: 16.0, color: Colors.black),
                             ),
@@ -92,7 +91,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                 ),
              const   SizedBox(
                   child:  Text(
-                    'After copied your Api key paste and save it here',
+                    'Depois de copiar sua chave Api, cole e salve-a aqui',
                     style: TextStyle(fontSize: 12.0, color: Colors.white),
                   ),
                 ),
@@ -115,7 +114,7 @@ class KeyGeneratePage extends GetView<KeyGenerateController> {
                       ),
                     ),
                     floatingLabelStyle: const TextStyle(color: Colors.white),
-                    labelText: 'Colar sua API Key',
+                    labelText: 'Cola sua chave da API ',
                     labelStyle:
                         const TextStyle(fontSize: 12.0, color: Colors.white),
                     suffixIcon: IconButton(

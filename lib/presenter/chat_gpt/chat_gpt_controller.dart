@@ -87,26 +87,26 @@ class ChatGptController extends GetxController {
     update();
   }
 
-  // Future camera() async {
-  //   try {
-  //     final image =
-  //         await ImagePicker.platform.getImage(source: ImageSource.camera);
-  //     if (image != null) {
-  //       img = image;
-  //       getRecognisedText(img!);
-  //       update();
-  //     } else {
-  //       Get.showSnackbar(
-  //         const GetSnackBar(
-  //           title: "Falha",
-  //           titleText: Text("Erro ao fazer a leitura de Imagem"),
-  //         ),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     textScanner = false;
-  //   }
-  // }
+  Future camera() async {
+    try {
+      final image =
+          await ImagePicker.platform.getImage(source: ImageSource.camera);
+      if (image != null) {
+        img = image;
+        getRecognisedText(img!);
+        update();
+      } else {
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Falha",
+            titleText: Text("Erro ao fazer a leitura de Imagem"),
+          ),
+        );
+      }
+    } catch (e) {
+      textScanner = false;
+    }
+  }
 
   Future getImage() async {  
     try {
@@ -145,6 +145,7 @@ class ChatGptController extends GetxController {
   Future getKey() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     key = sharedPreferences.getString("key") ?? "";
+    print(key);
   }
 
   @override

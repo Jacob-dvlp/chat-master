@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class KeyGenerateController extends GetxController {
-  final controller = TextEditingController(text: "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");
+  final controller = TextEditingController();
   Future saveKey() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (controller.text.isEmpty) {
@@ -31,6 +31,27 @@ class KeyGenerateController extends GetxController {
             icon: Icon(Icons.check),
             backgroundColor: Colors.black),
       );
+    } else if (controller.text.contains(" ")) {
+      return Get.showSnackbar(const GetSnackBar(
+          titleText: Text(
+            "Inválido",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          duration: Duration(seconds: 4),
+          messageText: Text(
+            "O tipo de Key inserido é inválido",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          icon: Icon(
+            Icons.info_outline,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.red));
     } else {
       return Get.showSnackbar(const GetSnackBar(
           titleText: Text(
