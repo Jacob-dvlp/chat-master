@@ -16,43 +16,9 @@ class KeyGenerateController extends GetxController {
         duration: const Duration(seconds: 4),
       );
     }
-    if (controller.text.length == 51) {
-      await sharedPreferences.setString("key", controller.text);
-      return Get.showSnackbar(
-        const GetSnackBar(
-            titleText: Text("Sucesso"),
-            messageText: Text(
-              "A tua key foi salvo com sucesso",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            duration: Duration(seconds: 4),
-            icon: Icon(Icons.check),
-            backgroundColor: Colors.black),
-      );
-    } else {
-      return Get.showSnackbar(const GetSnackBar(
-          titleText: Text(
-            "Inválido",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          duration: Duration(seconds: 4),
-          messageText: Text(
-            "O tipo de Key inserido é inválido",
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          icon: Icon(
-            Icons.info_outline,
-            color: Colors.white,
-          ),
-          backgroundColor: Colors.red));
-    }
+    sharedPreferences.setString("key", controller.text);
+    return Get.snackbar("Sucesso", "A tua key foi salvo com sucesso",
+        backgroundColor: Colors.green);
   }
 
   clipPaste({required String value}) {

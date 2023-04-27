@@ -141,15 +141,4 @@ class ChatGptController extends GetxController {
       return;
     }
   }
-
-  Future getKey() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    key = sharedPreferences.getString("key") ?? "";
-  }
-
-  @override
-  void onInit() {
-    getKey();
-    super.onInit();
-  }
 }
