@@ -1,4 +1,4 @@
-# chat_master
+# masterchat
 
 A new Flutter project.
 

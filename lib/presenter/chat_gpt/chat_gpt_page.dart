@@ -18,6 +18,7 @@ class ChatGptPage extends GetView<ChatGptController> {
       ),
       builder: (controller) {
         return Scaffold(
+          
           drawer: Drawer(
                   shadowColor: Colors.white,
                   child: Container(

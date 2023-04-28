@@ -1,6 +1,6 @@
 {
-    "name": "chat_master",
-    "short_name": "chat_master",
+    "name": "masterchat",
+    "short_name": "masterchat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
